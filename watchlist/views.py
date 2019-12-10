@@ -1,13 +1,24 @@
-from watchlist import app
+from watchlist import app,db
 from watchlist.models import User,Movie
-from flask import render_template,url_for
+from flask import render_template,url_for,request,flash,redirect
 
 
 
-@app.route('/')
+@app.route('/',methods=['GET','POST'])
 @app.route('/index')
 @app.route('/home')
 def index():
+    if request.method == "POST":
+        title = request.form.get('title')
+        year = request.form.get('year')
+        if not title or not year or len(year) > 4 or len(title) > 60:
+            flash('Invalid input.')
+            return redirect(url_for('index'))
+        movie = Movie(title = title, year = year)
+        db.session.add(movie)
+        db.session.commit()
+        flash('Item created.')
+        return redirect(url_for('index'))
     movies = Movie.query.all()
     return render_template('index.html',movies=movies)
 
