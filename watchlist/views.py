@@ -35,10 +35,6 @@ def test_url_for():
     print(url_for('test_url_for'))
     return 'Test page'
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'),404
-
 @app.route('/movie/edit/<int:movie_id>',methods=['GET',"POST"])
 @login_required
 def edit(movie_id):

@@ -26,4 +26,4 @@ def inject_user():
     user = models.User.query.first()
     return dict(user=user)
 
-from watchlist import views,commands,models
+from watchlist import views,commands,models,errors
